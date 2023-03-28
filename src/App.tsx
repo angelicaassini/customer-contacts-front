@@ -1,11 +1,20 @@
-
-import './App.css';
+// import './App.css';
+import { CustomerContext } from "./context/CustomerContext";
+import RoutesMain from "./routes";
+import { GlobalStyle } from "./styles/global";
 
 function App() {
   return (
-    <div className="App">
-      <h1>testando</h1>
-    </div>
+    <>
+      <GlobalStyle> 
+        <ToastContainer>
+          <CustomerContext>
+           <RoutesMain/>
+          </CustomerContext>
+        </ToastContainer>
+      </GlobalStyle>  
+    </>
+    
   );
 }
 
