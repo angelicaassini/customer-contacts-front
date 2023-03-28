@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { CustomerContext, iCustomerContext } from "../../context/CustomerContext";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
+import { Container, StyledLoginForm } from "./styles";
 
 export interface iLoginFormData{
   email: string;
