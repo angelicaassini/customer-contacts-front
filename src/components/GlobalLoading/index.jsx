@@ -1,6 +1,6 @@
 import { useContext }  from "react"
 import { Outlet } from "react-router-dom"
-import { CustomerContext } from ""
+import { CustomerContext } from "../../context/CustomerContext"
 
 const GlobalLoading = () => {
     const {globalLoading} = useContext(CustomerContext);

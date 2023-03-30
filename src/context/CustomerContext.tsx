@@ -13,16 +13,16 @@ export interface iCustomerProviderProps{
   children: React.ReactNode
 }
 
-export interface iCustomer{
+export interface iCustomerResponse{
   id: string,
   customer_name: string,
   CNPJ: number,
   email: string,
   isActive: boolean,
-  contacts: iContact[]
+  contacts: iContactResponse[]
 }
 
-export interface iContact{
+export interface iContactResponse{
   id: string,
   name: string,
   phone: string,
@@ -34,10 +34,10 @@ export interface iContact{
 export interface iCustomerContext{
   registerCustomer: (data: iRegisterFormData) => void,
   loginCustomer: (data: iLoginFormData) => void,
-  customer: iCustomer|null,
-  setCustomer: React.Dispatch<React.SetStateAction<iCustomer|null>>,
-  contacts: iContact[],
-  setContacts: React.Dispatch<React.SetStateAction<iContact[]>>,
+  customer: iCustomerResponse|null,
+  setCustomer: React.Dispatch<React.SetStateAction<iCustomerResponse|null>>,
+  contacts: iContactResponse[],
+  setContacts: React.Dispatch<React.SetStateAction<iContactResponse[]>>,
   globalLoading: boolean,
   setGlobalLoading: React.Dispatch<React.SetStateAction<boolean>>,
 }
@@ -45,17 +45,18 @@ export interface iCustomerContext{
 export const CustomerContext = createContext<iCustomerContext>({} as iCustomerContext);
 
 const CustomerProvider = ({children}:iCustomerProviderProps) => {
-    const [customer, setCustomer] = useState<iCustomer|null>(null)
-    const [contacts, setContacts] = useState<iContact[]>([])
+    const [customer, setCustomer] = useState<iCustomerResponse|null>(null)
+    const [contacts, setContacts] = useState<iContactResponse[]>([])
     const [globalLoading, setGlobalLoading] = useState<boolean>(false)
     const navigate = useNavigate()
     const location = useLocation()
 
     async function registerCustomer(data:iRegisterFormData){
+        setGlobalLoading(true)
         try {
           await apiBackend.post("/customers", data)
           navigate("/login")
-          toast.success('🦄 Cadastro realizado com sucesso!', {
+          toast.success('🦄 Registration successfully completed!', {
             position: "top-right",
             autoClose: 2000,
             hideProgressBar: false,
@@ -66,8 +67,9 @@ const CustomerProvider = ({children}:iCustomerProviderProps) => {
             theme: "dark",
           });  
             
-        } catch (error) {
-            toast.error('VIXI! Seu cadastro deu errado!', {
+        } 
+        catch (error) {
+            toast.error('Your registration failed!', {
               position: "top-right",
               autoClose: 2000,
               hideProgressBar: false,
@@ -77,6 +79,9 @@ const CustomerProvider = ({children}:iCustomerProviderProps) => {
               progress: undefined,
               theme: "dark",
             });         
+        } 
+        finally {
+          setGlobalLoading(false)
         }
     }
 
@@ -94,7 +99,8 @@ const CustomerProvider = ({children}:iCustomerProviderProps) => {
 
               const toNavigate = location.state?.from?.pathname || "/dashboard"
               navigate(toNavigate, {replace:true})
-            } catch (error) {
+            } 
+            catch (error) {
                 localStorage.removeItem('@INFINITY-TOKEN')
                 localStorage.removeItem('@INFINITY-CUSTOMER')
                 const requestError = error as AxiosError<any>
@@ -109,12 +115,14 @@ const CustomerProvider = ({children}:iCustomerProviderProps) => {
                   theme: "dark",
                 })
             }
-            finally{
+            finally {
               setGlobalLoading(false)
             }
           }
+        }
         loadCustomer()
     }, [])
+    
     
     async function loginCustomer(data: iLoginFormData){
         setGlobalLoading(true);
@@ -126,8 +134,8 @@ const CustomerProvider = ({children}:iCustomerProviderProps) => {
           setCustomer(customerResponse);
           setContacts(customerResponse.contacts);
 
-          localStorage.setItem("@KENZIEHUB-TOKEN", token);
-          localStorage.setItem("@KENZIEHUB-USERID", userResponse.id);
+          localStorage.setItem("@INFINITY-TOKEN", token);
+          localStorage.setItem("@INFINITY-CUSTOMER", customerResponse.id);
 
           const toNavigate = location.state?.from?.pathname || "/dashboard";
           navigate(toNavigate, { replace: true });
@@ -141,7 +149,8 @@ const CustomerProvider = ({children}:iCustomerProviderProps) => {
             progress: undefined,
             theme: "dark",
           })     
-        } catch (error) {
+        } 
+        catch (error) {
             toast.error("Ops! Algo deu errado, tente novamente", {
               position: "top-right",
               autoClose: 2500,
@@ -152,7 +161,8 @@ const CustomerProvider = ({children}:iCustomerProviderProps) => {
               progress: undefined,
               theme: "dark",
             });
-        } finally{
+        } 
+        finally {
             setGlobalLoading(false)
         }
     }

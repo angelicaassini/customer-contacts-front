@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom"
+import { CustomerContext } from "../../context/CustomerContext";
 import GlobalLoading from "../GlobalLoading";
 
 const ProtectedRoutes = () => {

@@ -25,11 +25,6 @@ const customerRequestSchema = yup.object({
     .required("Password is required."), 
 })
 
-// const contactRequestSchema = yup.object({
-//   name: yup.string().required("Name is required."),
-//   phone: yup.string().required("Phone is required."),
-//   email: yup.string().required("Email is required."),
-// })
 
 const Register = () => {
   const {register, handleSubmit, formState:{errors}} = 
@@ -47,12 +42,12 @@ const Register = () => {
           </div>
 
           <label htmlFor="customer_name">Nome</label>
-          <input id="customer_name" type="text" placeholder="Digite o nome de sua empresa." 
+          <input id="customer_name" type="text" placeholder="Type the name of your company" 
           {...register("customer_name")}/>
           <p>{errors.customer_name?.message}</p>
 
           <label htmlFor="CNPJ">CNPJ</label>
-          <input id="CNPJ" type="number" placeholder="Digite o CNPJ de sua empresa."
+          <input id="CNPJ" type="number" placeholder="Type the CNPJ of your company"
           {...register("CNPJ")} />
           <p>{errors.CNPJ?.message}</p>
 

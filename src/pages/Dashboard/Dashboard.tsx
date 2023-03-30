@@ -1,12 +1,19 @@
-import { useContext, useEffect, useState } from "react"
-import { CustomerContext, iCustomerContext } from "../../context/CustomerContext"
-import Infinity from "../../services/Infinity.png"
-import { ContainerDashboard, StyledContacts, StyledNav } from "./styles"
+import { useContext, useEffect } from "react"
 import { useNavigate } from "react-router-dom";
 
+import { CustomerContext, iCustomerContext } from "../../context/CustomerContext"
+import { ContactContext, iContactContext } from "../../context/ContactContext";
+import AddModal from "../../components/Modal/AddModal";
+
+import { ContainerDashboard, StyledContacts, StyledNav } from "./styles"
+import Infinity from "../../services/Infinity.png"
+
 const Dashboard = () => {
-    const {customer, setCustomer, modalIsOpen, setModalIsOpen, contacts} = 
+    const {customer, setCustomer} = 
     useContext<iCustomerContext>(CustomerContext)
+
+    const {modalIsOpen, setModalIsOpen, contacts} = 
+    useContext<iContactContext>(ContactContext)
 
     const navigate = useNavigate()
 
@@ -25,7 +32,7 @@ const Dashboard = () => {
         <ContainerDashboard>
 
             <StyledNav>
-                <img src="{Infinity}" alt="infinito em dourado" />
+                <img src={Infinity} alt="Infinity symbol in gold"/>
                 <button type="button" onClick={() => logout()}>Sair</button>
             </StyledNav>
 
@@ -41,7 +48,7 @@ const Dashboard = () => {
                 </div>
 
                 <ul>
-                    {contacts.map(({id, name, phone, email, isActive, createdAt}) => {
+                    {contacts.map(({id, name, phone, email, isActive, createdAt}) => 
                         <li key={id}>
                             <h2>{name}</h2>
                             <h3>{phone}</h3>
@@ -49,7 +56,7 @@ const Dashboard = () => {
                             <h5>{`Contato ativo? ${isActive}`}</h5>
                             <h5>{`Criado em: ${createdAt}`}</h5>
                         </li>
-                    })}
+                    )}
                 </ul>
             </StyledContacts>
             {modalIsOpen && <AddModal/>}

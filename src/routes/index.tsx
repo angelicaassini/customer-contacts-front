@@ -1,7 +1,8 @@
 import { Route, Routes} from "react-router-dom"
 import GlobalLoading from "../components/GlobalLoading"
 import ProtectedRoutes from "../components/ProtectedRoutes"
-import Login from "../pages/Login/styles"
+import Dashboard from "../pages/Dashboard/Dashboard"
+import Login from "../pages/Login/Login"
 import Register from "../pages/Register/Register"
 
 const RoutesMain = () => {
