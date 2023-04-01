@@ -52,6 +52,7 @@ const CustomerProvider = ({children}:iCustomerProviderProps) => {
     const location = useLocation()
 
     async function registerCustomer(data:iRegisterFormData){
+      
         setGlobalLoading(true)
         try {
           await apiBackend.post("/customers", data)
@@ -69,6 +70,7 @@ const CustomerProvider = ({children}:iCustomerProviderProps) => {
             
         } 
         catch (error) {
+          console.log("222", error)
             toast.error('Your registration failed!', {
               position: "top-right",
               autoClose: 2000,
@@ -88,12 +90,13 @@ const CustomerProvider = ({children}:iCustomerProviderProps) => {
     useEffect(() => {
         async function loadCustomer(){
           const token = localStorage.getItem('@INFINITY-TOKEN');
+          const userId = localStorage.getItem('@INFINITY-CUSTOMER');
 
           if (token){
-            setGlobalLoading(true);
+            // setGlobalLoading(true);
             try{
               apiBackend.defaults.headers.authorization = `Bearer ${token}`
-              const { data } = await apiBackend.get("/customers")
+              const { data } = await apiBackend.get(`/customers/${userId}`)
               setCustomer(data)
               setContacts(data.contacts)
 
@@ -119,23 +122,26 @@ const CustomerProvider = ({children}:iCustomerProviderProps) => {
               setGlobalLoading(false)
             }
           }
-        }
-        loadCustomer()
-    }, [])
+      }
+      loadCustomer()
+    }, [globalLoading])
     
     
     async function loginCustomer(data: iLoginFormData){
         setGlobalLoading(true);
         try {
           const response = await apiBackend.post("/login", data);
+          const { userId, token } = response.data;
+          console.log("uI", userId, "t", token)
 
-          const { customer: customerResponse, token } = response.data;
           apiBackend.defaults.headers.authorization = `Bearer ${token}`;
-          setCustomer(customerResponse);
-          setContacts(customerResponse.contacts);
+
+
+          // setCustomer(customerResponse);
+          // setContacts(customerResponse.contacts);
 
           localStorage.setItem("@INFINITY-TOKEN", token);
-          localStorage.setItem("@INFINITY-CUSTOMER", customerResponse.id);
+          localStorage.setItem("@INFINITY-CUSTOMER", userId);
 
           const toNavigate = location.state?.from?.pathname || "/dashboard";
           navigate(toNavigate, { replace: true });

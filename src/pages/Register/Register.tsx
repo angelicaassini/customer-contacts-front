@@ -36,12 +36,12 @@ const Register = () => {
       <>
       <Container>
         <StyledRegisterForm onSubmit={handleSubmit(registerCustomer)}>
-          <div>
-            <h1>Cadastre-se</h1>
-            <h3>Desfrute da facilidade de ter seus contatos sempre à mão</h3>
+          <div className="title">
+            <h1>Registration</h1>
+            <h3>Enjoy the convenience of having your contacts always at hand!</h3>
           </div>
 
-          <label htmlFor="customer_name">Nome</label>
+          <label htmlFor="customer_name">Name</label>
           <input id="customer_name" type="text" placeholder="Type the name of your company" 
           {...register("customer_name")}/>
           <p>{errors.customer_name?.message}</p>
@@ -52,14 +52,16 @@ const Register = () => {
           <p>{errors.CNPJ?.message}</p>
 
           <label htmlFor="email">Email</label>
-          <input id="email" type="text" placeholder="Digite o email priincipal de cadastro."
+          <input id="email" type="text" placeholder="Choose one email to the register."
           {...register("email")}/>
           <p>{errors.email?.message}</p>
 
-          <label htmlFor="password">Senha</label>
-          <input id="password" type="text" placeholder="Digite sua senha de acesso."
+          <label htmlFor="password">Password</label>
+          <input id="password" type="text" placeholder="Choose one password to the register."
           {...register("password")}/>
           <p>{errors.password?.message}</p>
+
+          <button type="submit" >Sign up</button>
 
         </StyledRegisterForm>
 

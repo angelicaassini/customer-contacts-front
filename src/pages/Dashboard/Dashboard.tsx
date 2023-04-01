@@ -12,7 +12,7 @@ const Dashboard = () => {
     const {customer, setCustomer} = 
     useContext<iCustomerContext>(CustomerContext)
 
-    const {modalIsOpen, setModalIsOpen, contacts} = 
+    const {modalIsOpen, setModalIsOpen, contacts, editContact, removeContact} = 
     useContext<iContactContext>(ContactContext)
 
     const navigate = useNavigate()
@@ -37,24 +37,27 @@ const Dashboard = () => {
             </StyledNav>
 
             <header>
-                <p>Olá, {customer?.customer_name}</p>
-                <span>{customer?.email}</span>
+                <p>HELLO</p>
+                {/* <p>Hello, {customer?.customer_name}</p>
+                <span>{customer?.email}</span> */}
             </header>
 
             <StyledContacts>
                 <div>
-                    <h2>Contatos</h2>
+                    <h2>Contacts</h2>
                     <button type="button" onClick={() => setModalIsOpen(!modalIsOpen)}>+</button>
                 </div>
 
                 <ul>
-                    {contacts.map(({id, name, phone, email, isActive, createdAt}) => 
-                        <li key={id}>
-                            <h2>{name}</h2>
-                            <h3>{phone}</h3>
-                            <h2>{email}</h2>
-                            <h5>{`Contato ativo? ${isActive}`}</h5>
-                            <h5>{`Criado em: ${createdAt}`}</h5>
+                    {contacts.map((contact) => 
+                        <li key={contact.id}>
+                            <h2>{contact.name}</h2>
+                            <h3>{contact.phone}</h3>
+                            <h2>{contact.email}</h2>
+                            <h5>{`Contato ativo? ${contact.isActive}`}</h5>
+                            <h5>{`Criado em ${contact.createdAt}`}</h5>
+                            <button className="edit-button" type="button" onClick={() => editContact(contact, contact.id)}>Edit Contact</button>
+                            <button className="delete-button" type="button" onClick={() => removeContact(contact.id)}>Delete</button>
                         </li>
                     )}
                 </ul>

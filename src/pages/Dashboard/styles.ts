@@ -1,8 +1,36 @@
 import styled from "styled-components";
 
+
+export const StyledNav = styled.nav`
+    width: 90%;
+    height: 118px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--Grey-4);
+
+    img{
+        width: 100px;
+    }
+
+    button{
+        width: 80px;
+        height: 40px;
+        background: var(--Grey-3); 
+        border: 1px solid var(--Grey-3);
+        border-radius: 4px;
+        
+        font-weight: 600;
+        font-size: 12px;
+        color: var(--Grey-0);
+        margin-right: -50px;
+    }
+`
+
 export const ContainerDashboard = styled.div`
-    width: 70%;
-    height: 720px;
+    width: 100%;
+    height: 90%;
     max-width: 1200px;
     padding: 16px;
     background: var(--Grey-4);
@@ -11,11 +39,12 @@ export const ContainerDashboard = styled.div`
     margin: 0 auto;
     position: relative;
 
+
     header{
-        width: 100%;
+        width: 500px;
         height: 118px;
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         justify-content: space-around;
         align-items: center;
         background-color: var(--Grey-4);
@@ -28,37 +57,12 @@ export const ContainerDashboard = styled.div`
 
         span{
             font-weight: 400;
-            font-size: 12px;
+            font-size: 14px;
             color: var(--Grey-1);
         }
     }
 `
 
-export const StyledNav = styled.nav`
-    width: 100%;
-    height: 118px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    background-color: var(--Grey-4);
-
-    img{
-        width: 100px;
-    }
-
-    button{
-        width: 55px;
-        height: 32px;
-        background: var(--Grey-3); 
-        border: 1px solid var(--Grey-3);
-        border-radius: 4px;
-        
-        font-weight: 600;
-        font-size: 12px;
-        color: var(--Grey-0);
-    }
-`
 
 export const StyledContacts = styled.div`
     width: 100%;
@@ -77,7 +81,7 @@ export const StyledContacts = styled.div`
         h2{
             font-weight: 600;
             font-size: 18px;
-            color: var(--Grey-3);
+            color: var(--Grey-0);
             margin-bottom: 30px;
         }
 
@@ -85,7 +89,7 @@ export const StyledContacts = styled.div`
         button{
             width: 32px;
             height: 32px;
-            background-color: var(--Grey-3);
+            background-color: var(--Grey-0);
             color: var(--Grey-0);
         }
 
@@ -98,9 +102,7 @@ export const StyledContacts = styled.div`
         
         padding: 23px 26px 24px 22px;
 
-        background: var(--Grey-3);
-        box-shadow: 0px 4px 40px -10px rgba(0, 0, 0, 0.25);
-        border-radius: 4px;      
+          
         
         li{
             width: 90%;
@@ -130,16 +132,36 @@ export const StyledContacts = styled.div`
                 color: var(--Grey-2); 
             }
 
-            button{
-                background-color: transparent;
-                width: 12px;
-                height: 14px;
-                position: absolute;
-                top: 10px;
-                right: -50px;
-            }
-        }
+            .edit-button{
+                width: 80px;
+                height: 40px;
+                background: var(--button-primar); 
+                
+                border: 1px solid var(--button-primary);
+                border-radius: 4px;
+                margin: 10px auto;
 
+                font-weight: 500;
+                font-size: 14px;
+                color: var(--Grey-0);
+  
+            }
+
+            .delete-button{
+                width: 80px;
+                height: 40px;
+                background: var(--button-primary-negative); 
+                
+                border: 1px solid var(--button-primary-negative);
+                border-radius: 4px;
+                margin: 10px auto;
+
+                font-weight: 500;
+                font-size: 14px;
+                color: var(--Grey-0);
+            }
+
+        }
 
     }
 `

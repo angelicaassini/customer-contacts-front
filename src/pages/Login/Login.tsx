@@ -4,6 +4,7 @@ import { CustomerContext, iCustomerContext } from "../../context/CustomerContext
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Container, StyledLoginForm } from "./styles";
+import { LinkStyled as Link } from "./styles";
 
 export interface iLoginFormData{
   email: string;
@@ -11,8 +12,8 @@ export interface iLoginFormData{
 }
 
 const schemaLogin = yup.object({
-  email: yup.string().required("Email é obrigatório."),
-  password: yup.string().required("Password é obrigatório.")
+  email: yup.string().required("Email is required."),
+  password: yup.string().required("Password is required.")
 })
 
 const Login = () => {
@@ -30,7 +31,7 @@ const Login = () => {
               <input 
                 id="email" 
                 type="email"
-                placeholder="Digite seu email"
+                placeholder="Type your email"
                 {...register("email")}
               />
               <p>{errors.email?.message}</p>
@@ -39,10 +40,16 @@ const Login = () => {
               <input
                 id="password"
                 type="password"
-                placeholder="Digite sua senha"
+                placeholder="Type your password"
                 {...register("password")}
               />
               <p>{errors.password?.message}</p>
+              
+              <button type="submit">Send</button>
+
+              <span>Not have an account yet?</span>
+              
+              <Link to={"/register"}>Sign up</Link>
             </StyledLoginForm>
           </Container>
         </>

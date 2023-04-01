@@ -11,6 +11,12 @@ export interface iContactFormData{
     email: string;
 }
 
+export interface iContactUpdateFormData{
+    name?: string,
+    phone?: string,
+    email?: string;
+}
+
 const contactRequestSchema = yup.object({
   name: yup.string().required("Name is required."),
   phone: yup.string().required("Phone is required."),
@@ -31,28 +37,28 @@ const AddModal = () => {
         <Modal>
             <form onSubmit={handleSubmit((data) => createContact(data))}>
                 <div className="h1-button">
-                    <h1>Cadastrar Contato</h1>
+                    <h1>Add Contact</h1>
                     <button type="button" onClick={() => setModalIsOpen(false)}>X</button>
                 </div>
 
                 <div className="div-inputs">
-                    <label htmlFor="name">Nome</label>
+                    <label htmlFor="name">Name</label>
                     <input id="name" type="text" placeholder="Type the name of your contact"
                     {...register("name")}/>
                     <p>{errors.name?.message}</p>
 
-                    <label htmlFor="phone"></label>
+                    <label htmlFor="phone">Phone</label>
                     <input id="phone" type="text" placeholder="Type the phone of your contact" 
                     {...register("phone")}/>
                     <p>{errors.phone?.message}</p>
 
-                    <label htmlFor="email"></label>
+                    <label htmlFor="email">Email</label>
                     <input id="email" type="text" placeholder="Type the email of your contact" 
                     {...register("email")}/>
                     <p>{errors.email?.message}</p>
                 </div>
 
-                <button type="submit">Cadastrar contato</button>
+                <button type="submit">Add Contact</button>
             </form>
         </Modal>
     )
