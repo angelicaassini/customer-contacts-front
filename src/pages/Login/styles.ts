@@ -70,8 +70,8 @@ export const StyledLoginForm = styled.form`
         height: 40px;
         margin: 20px auto 30px;
 
-        background: var(--button-primary-negative);
-        border: 1px solid var(--button-primary-negative);
+        background: var(--button-primary-2);
+        border: 1px solid var(--button-primary-2);
         border-radius: 4px;
 
         font-weight: 500;

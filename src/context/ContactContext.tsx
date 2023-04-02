@@ -6,6 +6,7 @@ import { createContext, useContext, useState } from "react"
 import { iContactFormData } from "../components/Modal/AddModal";
 import apiBackend from "../services/api";
 import { CustomerContext, iCustomerContext } from "./CustomerContext";
+import { iContactUpdateFormData } from "../components/Modal/EditModal";
 
 export interface iContactResponse {
     id: string,
@@ -24,7 +25,7 @@ export interface iContactContext{
     contacts: iContactResponse[];
     setContacts: React.Dispatch<React.SetStateAction<iContactResponse[]>>;
     createContact:(data:iContactFormData) => void;
-    editContact:(data:iContactFormData, contact_id:string) => void;
+    editContact:(data:iContactUpdateFormData, contact_id:string) => void;
     removeContact:(contact_id:string) => void;
     modalIsOpen: boolean;
     setModalIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -70,7 +71,7 @@ const ContactProvider = ({children}:iContactProviderProps) => {
         }
     }
 
-    async function editContact(data:iContactFormData, contact_id:string) {
+    async function editContact(data:iContactUpdateFormData, contact_id:string) {
         setGlobalLoading(true)
         try {
            await apiBackend.patch(`/contacts/${contact_id}`, data)  

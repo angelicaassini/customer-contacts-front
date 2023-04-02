@@ -88,8 +88,8 @@ export const StyledRegisterForm = styled.form`
         margin: 20px auto 15px;
     
         align-self: center;
-        background: var(--button-primary-negative);
-        border: 1px solid var(--button-primary-negative);
+        background: var(--button-primary-2);
+        border: 1px solid var(--button-primary-2);
         border-radius: 4px;
 
         font-weight: 500;

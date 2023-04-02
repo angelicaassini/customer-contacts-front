@@ -55,7 +55,11 @@ const CustomerProvider = ({children}:iCustomerProviderProps) => {
       
         setGlobalLoading(true)
         try {
-          await apiBackend.post("/customers", data)
+          const response:iCustomerResponse = await apiBackend.post("/customers", data)
+          // setCustomer(response)
+          // setContacts(response.contacts)
+
+      
           navigate("/login")
           toast.success('🦄 Registration successfully completed!', {
             position: "top-right",
@@ -90,15 +94,17 @@ const CustomerProvider = ({children}:iCustomerProviderProps) => {
     useEffect(() => {
         async function loadCustomer(){
           const token = localStorage.getItem('@INFINITY-TOKEN');
-          const userId = localStorage.getItem('@INFINITY-CUSTOMER');
+          const customerId = localStorage.getItem('@INFINITY-CUSTOMER');
 
           if (token){
             // setGlobalLoading(true);
             try{
               apiBackend.defaults.headers.authorization = `Bearer ${token}`
-              const { data } = await apiBackend.get(`/customers/${userId}`)
-              setCustomer(data)
-              setContacts(data.contacts)
+              const { data } = await apiBackend.get(`/customers/${customerId}`)
+              // setCustomer(data)
+              // setContacts(data.contacts)
+
+         
 
               const toNavigate = location.state?.from?.pathname || "/dashboard"
               navigate(toNavigate, {replace:true})
@@ -131,17 +137,20 @@ const CustomerProvider = ({children}:iCustomerProviderProps) => {
         setGlobalLoading(true);
         try {
           const response = await apiBackend.post("/login", data);
-          const { userId, token } = response.data;
-          console.log("uI", userId, "t", token)
+          const { token, customerId, findCustomer } = response.data;
+          console.log("response:", response, "response.data", response.data)
+          console.log("token", token, "     customerId", customerId,  "findCustomer", findCustomer )
 
           apiBackend.defaults.headers.authorization = `Bearer ${token}`;
 
 
-          // setCustomer(customerResponse);
-          // setContacts(customerResponse.contacts);
+          setCustomer(findCustomer);
+          // setContacts(findCustomer.contacts);
+
+          console.log("customer", customer, "contacts", contacts)
 
           localStorage.setItem("@INFINITY-TOKEN", token);
-          localStorage.setItem("@INFINITY-CUSTOMER", userId);
+          localStorage.setItem("@INFINITY-CUSTOMER", customerId);
 
           const toNavigate = location.state?.from?.pathname || "/dashboard";
           navigate(toNavigate, { replace: true });

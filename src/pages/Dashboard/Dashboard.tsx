@@ -6,7 +6,7 @@ import { ContactContext, iContactContext } from "../../context/ContactContext";
 import AddModal from "../../components/Modal/AddModal";
 
 import { ContainerDashboard, StyledContacts, StyledNav } from "./styles"
-import Infinity from "../../services/Infinity.png"
+import Infinity from "../../services/Infinity1.png"
 
 const Dashboard = () => {
     const {customer, setCustomer} = 
@@ -33,13 +33,12 @@ const Dashboard = () => {
 
             <StyledNav>
                 <img src={Infinity} alt="Infinity symbol in gold"/>
-                <button type="button" onClick={() => logout()}>Sair</button>
+                <button type="button" onClick={() => logout()}>Logout</button>
             </StyledNav>
 
             <header>
-                <p>HELLO</p>
-                {/* <p>Hello, {customer?.customer_name}</p>
-                <span>{customer?.email}</span> */}
+                <p>Hello, {customer?.customer_name}</p>
+                <span>{customer?.email}</span>
             </header>
 
             <StyledContacts>

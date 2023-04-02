@@ -22,7 +22,7 @@ export const StyledNav = styled.nav`
         border-radius: 4px;
         
         font-weight: 600;
-        font-size: 12px;
+        font-size: 14px;
         color: var(--Grey-0);
         margin-right: -50px;
     }
@@ -89,8 +89,13 @@ export const StyledContacts = styled.div`
         button{
             width: 32px;
             height: 32px;
-            background-color: var(--Grey-0);
+
+            font-size: 20px;
+            font-weight: 600;
+
+            background-color: var(--button-primary-2);
             color: var(--Grey-0);
+            border-radius: 50%;
         }
 
     }
@@ -117,13 +122,13 @@ export const StyledContacts = styled.div`
             h2{
                 font-weight: 700;
                 font-size: 18px;
-                color: var(--Grey-3);
+                color: var(--Grey-2);
             }
 
             h3{
                 font-weight: 600;
                 font-size: 16px;
-                color: var(--Grey-3); 
+                color: var(--Grey-2); 
             }
 
             h5{

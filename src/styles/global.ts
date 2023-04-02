@@ -16,7 +16,9 @@ export const GlobalStyle = createGlobalStyle`
         --color-error: #E83F5B;
 
         --button-primary: #f60fa3;
-        --button-primary-hover: #FF427F;
+        --button-primary-1: #e7379d;
+        --button-primary-2: #FF427F;
+        --button-primary-hover: #f191c9;
         --button-primary-negative: #f193cf;
         --button-primary-disabled: #868e96;
         --button-primary-disabled-hover: #343b41;     

@@ -41,9 +41,10 @@ import styled from 'styled-components';
         }
 
         button{
-            width:  20px;
-            height: 20px;
+            width:  25px;
+            height: 25px;
             border-radius: 50%;
+            background: var(--button-primary-2);
             color: var(--Grey-0);
             position: relative;
 
@@ -65,7 +66,7 @@ import styled from 'styled-components';
             font-weight: 400;
             font-size: 12px;
             color: var(--Grey-0);   
-             margin-bottom: -25px;
+            margin-bottom: -25px;
             
         }
         
@@ -96,9 +97,9 @@ import styled from 'styled-components';
     button{
         width: 90%;
         height: 40px;
-        background: var(--button-primary-negative); 
+        background: var(--button-primary-2); 
         
-        border: 1px solid var(--button-primary);
+        border: 1px solid var(--button-primary-2);
         border-radius: 4px;
         margin: 10px auto;
 
