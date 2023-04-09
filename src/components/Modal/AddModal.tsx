@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { ContactContext } from "../../context/ContactContext";
@@ -11,12 +11,6 @@ export interface iContactFormData{
     email: string;
 }
 
-export interface iContactUpdateFormData{
-    name?: string,
-    phone?: string,
-    email?: string;
-}
-
 const contactRequestSchema = yup.object({
   name: yup.string().required("Name is required."),
   phone: yup.string().required("Phone is required."),
@@ -24,18 +18,14 @@ const contactRequestSchema = yup.object({
 })
 
 const AddModal = () => {
-    const {createContact, setModalIsOpen, contacts} = useContext(ContactContext)
+    const {createContact, setModalIsOpen} = useContext(ContactContext)
 
     const {register, handleSubmit, formState: {errors}} =
     useForm<iContactFormData>({resolver: yupResolver(contactRequestSchema)})
 
-    useEffect(()=>{
-
-    }, [contacts])
-
     return (
         <Modal>
-            <form onSubmit={handleSubmit((data) => createContact(data))}>
+            <form onSubmit={handleSubmit(createContact)}>
                 <div className="h1-button">
                     <h1>Add Contact</h1>
                     <button type="button" onClick={() => setModalIsOpen(false)}>X</button>

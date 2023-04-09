@@ -102,9 +102,7 @@ export const StyledContacts = styled.div`
 
     ul{
         width: 100%;     
-        max-height: 416px;
-        /* overflow-y: scroll; */
-        
+        max-height: 416px;      
         padding: 23px 26px 24px 22px;
 
           
@@ -120,27 +118,27 @@ export const StyledContacts = styled.div`
             gap: 20px;
 
             h2{
-                font-weight: 700;
-                font-size: 18px;
-                color: var(--Grey-2);
+                font-weight: 400;
+                font-size: 10px;
+                color: var(--Grey-1);
             }
 
             h3{
-                font-weight: 600;
-                font-size: 16px;
-                color: var(--Grey-2); 
+                font-weight: 400;
+                font-size: 10px;
+                color: var(--Grey-1); 
             }
 
             h5{
-                font-weight: 600;
-                font-size: 16px;
-                color: var(--Grey-2); 
+                font-weight: 300;
+                font-size: 10px;
+                color: var(--Grey-1); 
             }
 
             .edit-button{
                 width: 80px;
                 height: 40px;
-                background: var(--button-primar); 
+                background: var(--button-primary); 
                 
                 border: 1px solid var(--button-primary);
                 border-radius: 4px;
@@ -155,13 +153,13 @@ export const StyledContacts = styled.div`
             .delete-button{
                 width: 80px;
                 height: 40px;
-                background: var(--button-primary-negative); 
+                background: var(--button-primary-3); 
                 
-                border: 1px solid var(--button-primary-negative);
+                border: 1px solid var(--button-primary-3);
                 border-radius: 4px;
                 margin: 10px auto;
 
-                font-weight: 500;
+                font-weight: 700;
                 font-size: 14px;
                 color: var(--Grey-0);
             }

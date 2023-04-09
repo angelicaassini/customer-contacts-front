@@ -53,11 +53,46 @@ import styled from 'styled-components';
         }
     }
 
+    .h2-h3-button{
+        width: 300px;
+        height: 150px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+
+        h2{
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--Grey-0);  
+        }
+       
+        h3{
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--Grey-1);  
+        }
+
+        .cancel-button{
+            width:  30%;
+            height: 40px;
+            margin: 10px 0;
+            border-radius: 4px;
+            background: var(--button-primary-2);
+            color: var(--Grey-0);
+            position: relative;
+
+                
+        }
+    }
+
     .div-inputs{
         display: flex;
         flex-direction: column;
         width: 100%;
-        align-items: center;
+        align-content: center;
        
 
         label{
@@ -91,10 +126,12 @@ import styled from 'styled-components';
         p{
             color: red;
         }
+
+        
     }  
         
 
-    button{
+    .internal-edit-button{
         width: 90%;
         height: 40px;
         background: var(--button-primary-2); 
@@ -106,6 +143,7 @@ import styled from 'styled-components';
         font-weight: 500;
         font-size: 16px;
         color: var(--Grey-0);
+        align-self: center;
     
         
 
@@ -113,6 +151,24 @@ import styled from 'styled-components';
             width: 90%;
             justify-content: center;
         }
+        
     }
+
+    .delete-button{
+        width: 50%;
+        height: 40px;
+        background: var(--button-primary-2); 
+        
+        border: 1px solid var(--button-primary-2);
+        border-radius: 4px;
+        margin: 10px auto;
+
+        font-weight: 500;
+        font-size: 16px;
+        color: var(--Grey-0);
+
+    }
+
+    
 `
     

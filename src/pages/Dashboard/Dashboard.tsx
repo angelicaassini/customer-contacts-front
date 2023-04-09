@@ -1,9 +1,12 @@
-import { useContext, useEffect } from "react"
+import { useContext } from "react"
 import { useNavigate } from "react-router-dom";
 
-import { CustomerContext, iCustomerContext } from "../../context/CustomerContext"
+import { CustomerContext, iContactResponse, iCustomerContext } from "../../context/CustomerContext"
 import { ContactContext, iContactContext } from "../../context/ContactContext";
+
 import AddModal from "../../components/Modal/AddModal";
+import EditModal from "../../components/Modal/EditModal";
+import DeleteModal from "../../components/Modal/DeleteModal";
 
 import { ContainerDashboard, StyledContacts, StyledNav } from "./styles"
 import Infinity from "../../services/Infinity1.png"
@@ -12,20 +15,17 @@ const Dashboard = () => {
     const {customer, setCustomer} = 
     useContext<iCustomerContext>(CustomerContext)
 
-    const {modalIsOpen, setModalIsOpen, contacts, editContact, removeContact} = 
+    const {modalIsOpen, setModalIsOpen, contacts, 
+        updateContactModal, setUpdateContactModal, deleteContactModal, setDeleteContactModal} = 
     useContext<iContactContext>(ContactContext)
 
     const navigate = useNavigate()
-
-    useEffect(() => {
-
-    }, [contacts])
-
+ 
     function logout() {
         setCustomer(null)
         localStorage.removeItem('@INFINITY-TOKEN')
         localStorage.removeItem('@INFINITY-CUSTOMER')
-        navigate("/login", {replace:true})
+        navigate("/", {replace:true})
     }
 
     return (
@@ -48,20 +48,24 @@ const Dashboard = () => {
                 </div>
 
                 <ul>
-                    {contacts.map((contact) => 
-                        <li key={contact.id}>
-                            <h2>{contact.name}</h2>
-                            <h3>{contact.phone}</h3>
-                            <h2>{contact.email}</h2>
-                            <h5>{`Contato ativo? ${contact.isActive}`}</h5>
-                            <h5>{`Criado em ${contact.createdAt}`}</h5>
-                            <button className="edit-button" type="button" onClick={() => editContact(contact, contact.id)}>Edit Contact</button>
-                            <button className="delete-button" type="button" onClick={() => removeContact(contact.id)}>Delete</button>
+                    {contacts.map(({id, name, phone, email, isActive, createdAt}) => 
+                        <li key={id}>
+                            <h2>{id}</h2>
+                            <h2>{name}</h2>
+                            <h3>{phone}</h3>
+                            <h2>{email}</h2>
+                            <h5>{`Contato ativo? ${isActive}`}</h5>
+                            <h5>{`Criado em ${createdAt}`}</h5>
+
+                            <button className="edit-button" type="button" onClick={() => setUpdateContactModal(!updateContactModal)}>Edit Contact</button>
+                            <button className="delete-button" type="button" onClick={() => setDeleteContactModal(!deleteContactModal)}>Delete</button>
                         </li>
                     )}
                 </ul>
             </StyledContacts>
-            {modalIsOpen && <AddModal/>}
+            {!!modalIsOpen && <AddModal/>}
+            {!!updateContactModal && <EditModal/>}
+            {!!deleteContactModal && <DeleteModal/>}
 
         </ContainerDashboard>
     )

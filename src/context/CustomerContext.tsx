@@ -40,6 +40,7 @@ export interface iCustomerContext{
   setContacts: React.Dispatch<React.SetStateAction<iContactResponse[]>>,
   globalLoading: boolean,
   setGlobalLoading: React.Dispatch<React.SetStateAction<boolean>>,
+  removeEmptyProperties:(obj: object) => {[k:string]:any}
 }
 
 export const CustomerContext = createContext<iCustomerContext>({} as iCustomerContext);
@@ -51,6 +52,10 @@ const CustomerProvider = ({children}:iCustomerProviderProps) => {
     const navigate = useNavigate()
     const location = useLocation()
 
+    function removeEmptyProperties(obj: object){
+      return Object.fromEntries(Object.entries(obj).filter(([_,v]) => v != null))
+    }
+
     async function registerCustomer(data:iRegisterFormData){
       
         setGlobalLoading(true)
@@ -58,9 +63,8 @@ const CustomerProvider = ({children}:iCustomerProviderProps) => {
           const response:iCustomerResponse = await apiBackend.post("/customers", data)
           // setCustomer(response)
           // setContacts(response.contacts)
-
       
-          navigate("/login")
+          navigate("/")
           toast.success('🦄 Registration successfully completed!', {
             position: "top-right",
             autoClose: 2000,
@@ -74,7 +78,7 @@ const CustomerProvider = ({children}:iCustomerProviderProps) => {
             
         } 
         catch (error) {
-          console.log("222", error)
+          
             toast.error('Your registration failed!', {
               position: "top-right",
               autoClose: 2000,
@@ -102,9 +106,7 @@ const CustomerProvider = ({children}:iCustomerProviderProps) => {
               apiBackend.defaults.headers.authorization = `Bearer ${token}`
               const { data } = await apiBackend.get(`/customers/${customerId}`)
               // setCustomer(data)
-              // setContacts(data.contacts)
-
-         
+              // setContacts(data.contacts)      
 
               const toNavigate = location.state?.from?.pathname || "/dashboard"
               navigate(toNavigate, {replace:true})
@@ -136,18 +138,14 @@ const CustomerProvider = ({children}:iCustomerProviderProps) => {
     async function loginCustomer(data: iLoginFormData){
         setGlobalLoading(true);
         try {
-          const response = await apiBackend.post("/login", data);
+          const response = await apiBackend.post("/", data);
           const { token, customerId, findCustomer } = response.data;
-          console.log("response:", response, "response.data", response.data)
-          console.log("token", token, "     customerId", customerId,  "findCustomer", findCustomer )
+          // console.log("response:", response, "response.data", response.data)
+          // console.log("token", token, "     customerId", customerId,  "findCustomer", findCustomer )
 
           apiBackend.defaults.headers.authorization = `Bearer ${token}`;
-
-
           setCustomer(findCustomer);
-          // setContacts(findCustomer.contacts);
-
-          console.log("customer", customer, "contacts", contacts)
+          // console.log("customer", customer, "contacts", contacts)
 
           localStorage.setItem("@INFINITY-TOKEN", token);
           localStorage.setItem("@INFINITY-CUSTOMER", customerId);
@@ -188,7 +186,7 @@ const CustomerProvider = ({children}:iCustomerProviderProps) => {
             registerCustomer, loginCustomer, 
             customer, setCustomer, 
             contacts, setContacts,
-            globalLoading, setGlobalLoading
+            globalLoading, setGlobalLoading, removeEmptyProperties
           }}>
             {children}
         </CustomerContext.Provider>

@@ -1,15 +1,9 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useContext, useEffect } from "react";
+import { useContext} from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { ContactContext } from "../../context/ContactContext";
 import { Modal } from "./styles";
-
-export interface iContactFormData{
-    name: string,
-    phone: string,
-    email: string;
-}
 
 export interface iContactUpdateFormData{
     name?: string,
@@ -17,48 +11,47 @@ export interface iContactUpdateFormData{
     email?: string;
 }
 
-const contactRequestSchema = yup.object({
+const contactUpdateRequestSchema = yup.object({
   name: yup.string().notRequired(),
   phone: yup.string().notRequired(),
   email: yup.string().notRequired(),
 })
 
 const EditModal = () => {
-    const {editContact, setModalIsOpen, contacts} = useContext(ContactContext)
+    const {updateContact, editContactObj, setUpdateContactModal} = useContext(ContactContext)
 
     const {register, handleSubmit, formState: {errors}} =
-    useForm<iContactUpdateFormData>({resolver: yupResolver(contactRequestSchema)})
-
-    useEffect(()=>{
-
-    }, [contacts])
+    useForm<iContactUpdateFormData>({resolver: yupResolver(contactUpdateRequestSchema)})
 
     return (
         <Modal>
-            <form onSubmit={handleSubmit((data) => editContact(data, "1"))}>
+            <form onSubmit={handleSubmit(updateContact)}>
                 <div className="h1-button">
-                    <h1>Add Contact</h1>
-                    <button type="button" onClick={() => setModalIsOpen(false)}>X</button>
+                    <h1>Edit Contact</h1>
+                    <button type="button" onClick={() => setUpdateContactModal(false)}>X</button>
                 </div>
 
                 <div className="div-inputs">
                     <label htmlFor="name">Name</label>
                     <input id="name" type="text" placeholder="Type the name of your contact"
+                    defaultValue={editContactObj?.name}
                     {...register("name")}/>
                     <p>{errors.name?.message}</p>
 
                     <label htmlFor="phone">Phone</label>
                     <input id="phone" type="text" placeholder="Type the phone of your contact" 
+                    defaultValue={editContactObj?.phone}
                     {...register("phone")}/>
                     <p>{errors.phone?.message}</p>
 
                     <label htmlFor="email">Email</label>
                     <input id="email" type="text" placeholder="Type the email of your contact" 
+                    defaultValue={editContactObj?.email}
                     {...register("email")}/>
                     <p>{errors.email?.message}</p>
                 </div>
 
-                <button type="submit">Edit Contact</button>
+                <button className="internal-edit-button" type="submit">Edit Contact</button>
             </form>
         </Modal>
     )
