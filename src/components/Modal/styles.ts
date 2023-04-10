@@ -82,9 +82,7 @@ import styled from 'styled-components';
             border-radius: 4px;
             background: var(--button-primary-2);
             color: var(--Grey-0);
-            position: relative;
-
-                
+            position: relative;               
         }
     }
 
@@ -167,6 +165,29 @@ import styled from 'styled-components';
         font-size: 16px;
         color: var(--Grey-0);
 
+    }
+
+    .add-button{
+        width: 90%;
+        height: 40px;
+        background: var(--button-primary-2); 
+        
+        border: 1px solid var(--button-primary-2);
+        border-radius: 4px;
+        margin: 10px auto;
+
+        font-weight: 500;
+        font-size: 16px;
+        color: var(--Grey-0);
+        align-self: center;
+    
+        
+
+        @media screen and (max-width: 375px){
+            width: 90%;
+            justify-content: center;
+        }
+        
     }
 
     
