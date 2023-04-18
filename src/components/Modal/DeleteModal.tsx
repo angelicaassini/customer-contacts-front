@@ -4,10 +4,10 @@ import { Modal } from "./styles";
 
 
 const DeleteModal = () => {
-    const {removeContact, setDeleteContactModal, contactToBeRemoved} = useContext(ContactContext)
+    const {removeContact, setDeleteContactModal} = useContext(ContactContext)
 
     function delContact(){
-        removeContact(contactToBeRemoved);
+        removeContact();
     }
     
 

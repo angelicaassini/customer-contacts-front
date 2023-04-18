@@ -18,17 +18,23 @@ const contactUpdateRequestSchema = yup.object({
 })
 
 const EditModal = () => {
-    const {updateContact, editContactObj, setUpdateContactModal} = useContext(ContactContext)
+    const {updateContact, editContactObj, setUpdateContactModal, setContactId} = useContext(ContactContext)
 
     const {register, handleSubmit, formState: {errors}} =
     useForm<iContactUpdateFormData>({resolver: yupResolver(contactUpdateRequestSchema)})
+
+    function closeEditModal(){
+        setUpdateContactModal(false)
+        setContactId(null)
+    }
 
     return (
         <Modal>
             <form onSubmit={handleSubmit(updateContact)}>
                 <div className="h1-button">
                     <h1>Edit Contact</h1>
-                    <button type="button" onClick={() => setUpdateContactModal(false)}>X</button>
+
+                    <button type="button" onClick={() => closeEditModal()}>X</button>
                 </div>
 
                 <div className="div-inputs">

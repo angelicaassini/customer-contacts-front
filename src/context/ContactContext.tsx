@@ -25,12 +25,9 @@ export interface iContactContext {
   contacts: iContactResponse[];
   setContacts: React.Dispatch<React.SetStateAction<iContactResponse[]>>;
 
-  contactToBeRemoved: string | null;
-  // setContactToBeRemoved: React.Dispatch<React.SetStateAction<string|null>>;
-
-  createContact: (data: iContactFormData) => void;
+  createContact: (data: iContactFormData) => Promise<void>;
   updateContact: (data: iContactUpdateFormData) => Promise<void>;
-  removeContact: (contact_id: string | null) => void;
+  removeContact: () => Promise<void>;
 
   addContactModal: boolean;
   setAddContactModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -39,18 +36,14 @@ export interface iContactContext {
   deleteContactModal: boolean;
   setDeleteContactModal: React.Dispatch<React.SetStateAction<boolean>>;
 
-  editContactObj: iContact | null;
-  setEditContactObj: React.Dispatch<React.SetStateAction<iContact | null>>;
+  editContactObj: iContactResponse | null;
+  setEditContactObj: React.Dispatch<React.SetStateAction<iContactResponse | null>>;
+
+  contactId: string |null;
+  setContactId: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
-interface iContact {
-  id: string;
-  name?: string;
-  phone?: string;
-  email?: string;
-  isActive?: boolean;
-  createdAt?: Date;
-}
+
 
 export const ContactContext = createContext<iContactContext>(
   {} as iContactContext
@@ -59,25 +52,24 @@ export const ContactContext = createContext<iContactContext>(
 const ContactProvider = ({ children }: iContactProviderProps) => {
   const { contacts, setContacts, setGlobalLoading, removeEmptyProperties } =
     useContext<iCustomerContext>(CustomerContext);
+
   const [addContactModal, setAddContactModal] = useState<boolean>(false);
   const [updateContactModal, setUpdateContactModal] = useState<boolean>(false);
   const [deleteContactModal, setDeleteContactModal] = useState<boolean>(false);
 
-  const [contactToBeRemoved, setContactToBeRemoved] = useState<string | null>(
+  const [editContactObj, setEditContactObj] = useState<iContactResponse | null>(
     null
   );
-  const [editContactObj, setEditContactObj] = useState<iContact | null>(null);
+
+  const [contactId, setContactId] = useState<string|null>(null)
 
   const token = localStorage.getItem("@INFINITY-TOKEN");
 
-  async function createContact(data: iContactFormData) {
+  async function createContact(dataRequest: iContactFormData) {
     setGlobalLoading(true);
     try {
-      const newContact: iContactResponse = await apiBackend.post(
-        "/contacts",
-        data
-      );
-      setContacts((oldContacts) => [...oldContacts, newContact]);
+      const {data} = await apiBackend.post("/contacts", dataRequest);
+      setContacts((oldContacts) => [...oldContacts, data]);
       toast.success("🦄 Contact successfully added!", {
         position: "top-right",
         autoClose: 2000,
@@ -105,16 +97,21 @@ const ContactProvider = ({ children }: iContactProviderProps) => {
 
   async function getReloadContacts() {
     apiBackend.defaults.headers.authorization = `Bearer ${token}`;
-    const allContacts: iContactResponse[] = await apiBackend.get("/contacts");
-    setContacts(allContacts);
+    const allContacts = await apiBackend.get("/contacts");
+    
+    setContacts(allContacts.data);
   }
 
-  async function updateContact(data: iContactUpdateFormData) {
+  async function updateContact(dataRequest: iContactUpdateFormData) {
     setGlobalLoading(true);
-    const newData = removeEmptyProperties(data);
-    try {
-      await apiBackend.patch(`/contacts/${editContactObj?.id}`, newData);
 
+    const dataRequestWithout = removeEmptyProperties(dataRequest)    
+ 
+      try {
+    
+        console.log(contactId)
+      const {data} = await apiBackend.patch(`/contacts/${contactId}`, dataRequestWithout);
+      // setContacts((oldContacts) => [...oldContacts, data]);
       toast.success("🦄 Contact successfully updated!", {
         position: "top-right",
         autoClose: 2000,
@@ -125,8 +122,8 @@ const ContactProvider = ({ children }: iContactProviderProps) => {
         progress: undefined,
         theme: "dark",
       });
-      setUpdateContactModal(false);
       getReloadContacts();
+      setUpdateContactModal(false);
     } catch (error) {
       toast.error("Your contact registration failed!", {
         position: "top-right",
@@ -141,6 +138,8 @@ const ContactProvider = ({ children }: iContactProviderProps) => {
       console.error(error);
     }
     setGlobalLoading(false);
+    setContactId(null)
+    // }
   }
 
   async function removeContact() {
@@ -148,9 +147,9 @@ const ContactProvider = ({ children }: iContactProviderProps) => {
     const token = localStorage.getItem("@INFINITY-TOKEN");
     if (token) {
       try {
-        await apiBackend.delete(`/contacts/${editContactObj?.id}`);
+        await apiBackend.delete(`/contacts/${contactId}`);
         const newContacts: iContactResponse[] = contacts.filter(
-          (contact) => contact.id !== editContactObj?.id
+          (contact) => contact.id !== contactId
         );
         setContacts(newContacts);
         toast.success("🦄 Contact successfully removed.", {
@@ -195,9 +194,10 @@ const ContactProvider = ({ children }: iContactProviderProps) => {
         setDeleteContactModal,
         contacts,
         setContacts,
-        contactToBeRemoved,
         editContactObj,
         setEditContactObj,
+        contactId,
+        setContactId,
       }}
     >
       {children}

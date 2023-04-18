@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 
 import {
   CustomerContext,
-  iContactResponse,
   iCustomerContext,
 } from "../../context/CustomerContext";
 import { ContactContext, iContactContext } from "../../context/ContactContext";
@@ -27,16 +26,30 @@ const Dashboard = () => {
     setUpdateContactModal,
     deleteContactModal,
     setDeleteContactModal,
+    setContactId
   } = useContext<iContactContext>(ContactContext);
 
+  console.log("antes do update", contacts)
+  
   const navigate = useNavigate();
-
+  
   function logout() {
     setCustomer(null);
     localStorage.removeItem("@INFINITY-TOKEN");
     localStorage.removeItem("@INFINITY-CUSTOMER");
     navigate("/", { replace: true });
   }
+  
+
+  function toEditModal(id:string){
+    setUpdateContactModal(!updateContactModal)
+    setContactId(id)
+  }  
+  
+  function toDeleteModal(id:string){
+    setDeleteContactModal(!deleteContactModal)
+    setContactId(id)
+  }  
 
   return (
     <ContainerDashboard>
@@ -64,26 +77,26 @@ const Dashboard = () => {
         </div>
 
         <ul>
-          {contacts.map(({ id, name, phone, email, isActive, createdAt }) => (
-            <li key={id}>
-              <h2>{id}</h2>
-              <h2>{name}</h2>
-              <h3>{phone}</h3>
-              <h2>{email}</h2>
-              <h5>{`Contato ativo? ${isActive}`}</h5>
-              <h5>{`Criado em ${createdAt}`}</h5>
+          {contacts.map((contact) => (
+            <li key={contact.id}>
+              <h2>{contact.id}</h2>
+              <h2>{contact.name}</h2>
+              <h3>{contact.phone}</h3>
+              <h2>{contact.email}</h2>
+              <h5>{`Active contact? ${contact.isActive}`}</h5>
+              <h5>{`Created at ${contact.createdAt}`}</h5>
 
               <button
                 className="edit-button"
                 type="button"
-                onClick={() => setUpdateContactModal(!updateContactModal)}
+                onClick={() => toEditModal(contact.id)}
               >
                 Edit Contact
               </button>
               <button
                 className="delete-button"
                 type="button"
-                onClick={() => setDeleteContactModal(!deleteContactModal)}
+                onClick={() => toDeleteModal(contact.id)}
               >
                 Delete
               </button>

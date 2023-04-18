@@ -53,7 +53,7 @@ const CustomerProvider = ({children}:iCustomerProviderProps) => {
     const location = useLocation()
 
     function removeEmptyProperties(obj: object){
-      return Object.fromEntries(Object.entries(obj).filter(([_,v]) => v != null))
+      return Object.fromEntries(Object.entries(obj).filter(([_,v]) => v != ""))
     }
 
     async function registerCustomer(data:iRegisterFormData){
@@ -61,8 +61,6 @@ const CustomerProvider = ({children}:iCustomerProviderProps) => {
         setGlobalLoading(true)
         try {
           const response:iCustomerResponse = await apiBackend.post("/customers", data)
-          // setCustomer(response)
-          // setContacts(response.contacts)
       
           navigate("/")
           toast.success('🦄 Registration successfully completed!', {
@@ -101,12 +99,9 @@ const CustomerProvider = ({children}:iCustomerProviderProps) => {
           const customerId = localStorage.getItem('@INFINITY-CUSTOMER');
 
           if (token){
-            // setGlobalLoading(true);
             try{
               apiBackend.defaults.headers.authorization = `Bearer ${token}`
-              const { data } = await apiBackend.get(`/customers/${customerId}`)
-              // setCustomer(data)
-              // setContacts(data.contacts)      
+              const { data } = await apiBackend.get(`/customers/${customerId}`) 
 
               const toNavigate = location.state?.from?.pathname || "/dashboard"
               navigate(toNavigate, {replace:true})
@@ -132,7 +127,7 @@ const CustomerProvider = ({children}:iCustomerProviderProps) => {
           }
       }
       loadCustomer()
-    }, [globalLoading])
+    }, [])
     
     
     async function loginCustomer(data: iLoginFormData){
@@ -140,19 +135,16 @@ const CustomerProvider = ({children}:iCustomerProviderProps) => {
         try {
           const response = await apiBackend.post("/", data);
           const { token, customerId, findCustomer } = response.data;
-          // console.log("response:", response, "response.data", response.data)
-          // console.log("token", token, "     customerId", customerId,  "findCustomer", findCustomer )
 
           apiBackend.defaults.headers.authorization = `Bearer ${token}`;
           setCustomer(findCustomer);
-          // console.log("customer", customer, "contacts", contacts)
 
           localStorage.setItem("@INFINITY-TOKEN", token);
           localStorage.setItem("@INFINITY-CUSTOMER", customerId);
 
           const toNavigate = location.state?.from?.pathname || "/dashboard";
           navigate(toNavigate, { replace: true });
-          toast.success("Login realizado com sucesso!", {
+          toast.success("Login realized with success!", {
             position: "top-right",
             autoClose: 2500,
             hideProgressBar: false,
@@ -164,7 +156,7 @@ const CustomerProvider = ({children}:iCustomerProviderProps) => {
           })     
         } 
         catch (error) {
-            toast.error("Ops! Algo deu errado, tente novamente", {
+            toast.error("Ops! Something is wrong, try again", {
               position: "top-right",
               autoClose: 2500,
               hideProgressBar: false,
