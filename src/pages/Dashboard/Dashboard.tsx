@@ -28,8 +28,6 @@ const Dashboard = () => {
     setDeleteContactModal,
     setContactId
   } = useContext<iContactContext>(ContactContext);
-
-  console.log("antes do update", contacts)
   
   const navigate = useNavigate();
   

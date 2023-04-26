@@ -108,8 +108,6 @@ const ContactProvider = ({ children }: iContactProviderProps) => {
     const dataRequestWithout = removeEmptyProperties(dataRequest)    
  
       try {
-    
-        console.log(contactId)
       const {data} = await apiBackend.patch(`/contacts/${contactId}`, dataRequestWithout);
       // setContacts((oldContacts) => [...oldContacts, data]);
       toast.success("🦄 Contact successfully updated!", {
