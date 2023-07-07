@@ -11,8 +11,10 @@ const RoutesMain = () => {
             <Route element={<GlobalLoading/>}>
                 <Route path="/register" element={<Register/>}/>
                 <Route path="/" element={<Login/>}/>
-                <Route path="/dashboard" element={<Dashboard/>}/>
-                <Route element={<ProtectedRoutes/>}>
+                <Route element={<ProtectedRoutes/>}/>
+                    
+                <Route>
+                    <Route path="/dashboard" element={<Dashboard/>}/>
                 </Route>
             </Route>
         </Routes>

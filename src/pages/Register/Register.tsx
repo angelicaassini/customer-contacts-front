@@ -57,7 +57,7 @@ const Register = () => {
           <p>{errors.email?.message}</p>
 
           <label htmlFor="password">Password</label>
-          <input id="password" type="text" placeholder="Choose one password to the register."
+          <input id="password" type="password" placeholder="Choose one password to the register."
           {...register("password")}/>
           <p>{errors.password?.message}</p>
 
